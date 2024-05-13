@@ -1,0 +1,3 @@
+    Đoạn mã trên định nghĩa một cấu trúc resource cho phạm vi I/O port. Cấu trúc này mô tả một phạm vi I/O cụ thể và có các trường như tên, địa chỉ bắt đầu, địa chỉ kết thúc, cờ, con trỏ cha, con trỏ anh chị em và con trỏ con.
+    Hàm allocate_resource tạo một phân phối con (subrange) của resource chính. Trong ví dụ này, nó tạo một phạm vi con từ 0x0100 đến 0x0200.
+    Sau khi phân phối con được tạo, hàm request_resource được sử dụng để đánh dấu phân phối con đó là bận rộn.

@@ -1,0 +1,3 @@
+    Hàm check_mem_region kiểm tra xem phạm vi bộ nhớ đã được chỉ định có sẵn không. Nếu phạm vi bộ nhớ đã được sử dụng bởi một thiết bị khác, hàm này trả về một mã lỗi âm chỉ rằng phạm vi bộ nhớ đang bận.
+    Hàm request_mem_region cấp quyền truy cập vào phạm vi bộ nhớ được chỉ định. Nếu cấp phát thành công, hàm này trả về một con trỏ không rỗng, ngược lại, nó trả về NULL.
+    Trong trường hợp phạm vi bộ nhớ đã được sử dụng hoặc cấp phát thất bại, trình điều khiển có thể ghi một thông báo lỗi và trả về một mã lỗi phù hợp.

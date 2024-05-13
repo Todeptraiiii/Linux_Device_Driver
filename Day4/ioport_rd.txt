@@ -1,0 +1,4 @@
+    Hàm check_region kiểm tra xem phạm vi cổng I/O đã chỉ định có sẵn không. Nếu các cổng đã được sử dụng bởi một thiết bị khác, nó sẽ trả về một mã lỗi âm chỉ rằng các cổng đang bận.
+    Hàm skull_probe_hw kiểm tra xem phần cứng có tồn tại tại các cổng được chỉ định không. Nếu không tìm thấy phần cứng, nó trả về -ENODEV, chỉ rằng thiết bị không được tìm thấy.
+    Nếu cả hai kiểm tra đều thành công, hàm request_region được gọi để cấp phát phạm vi cổng đã chỉ định cho trình điều khiển thiết bị "skull". Hàm này không bao giờ thất bại trong các điều kiện bình thường, vì kernel chỉ tải một module duy nhất vào một thời điểm, đảm bảo rằng không có module nào khác làm phiền quá trình cấp phát cổng.
+    Cuối cùng, hàm trả về 0 để chỉ thành công. Nếu xảy ra bất kỳ lỗi nào trong quá trình đăng ký cổng, mã lỗi tương ứng sẽ được trả về.
