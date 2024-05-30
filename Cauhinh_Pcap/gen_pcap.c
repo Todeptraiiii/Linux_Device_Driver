@@ -10,7 +10,8 @@
 #define PCAP_VERSION_MINOR 4
 #define PCAP_LINKTYPE_ETHERNET 1
 
-typedef struct pcap_hdr_s {
+typedef struct pcap_hdr_s 
+{
     uint32_t magic_number;   /* magic number */
     uint16_t version_major;  /* major version number */
     uint16_t version_minor;  /* minor version number */
@@ -20,7 +21,8 @@ typedef struct pcap_hdr_s {
     uint32_t network;        /* data link type */
 } pcap_hdr_t;
 
-typedef struct pcaprec_hdr_s {
+typedef struct pcaprec_hdr_s 
+{
     uint32_t ts_sec;         /* timestamp seconds */
     uint32_t ts_usec;        /* timestamp microseconds */
     uint32_t incl_len;       /* number of octets of packet saved in file */
@@ -42,16 +44,16 @@ void create_hdr_pcap(FILE *fp) // ham tao header file
 
 void create_data_pseudo(uint32_t length, uint32_t ts ,FILE *fp)
 {
-    // Tạo một gói tin giả từ dữ liệu cho sẵn
     pcaprec_hdr_t packet_header;
-    packet_header.ts_sec = ts; // Thời gian timestamp, thoi gian goi tin bat duoc
+    packet_header.ts_sec = ts; // Thoi gian timestamp, thoi gian goi tin bat duoc
     packet_header.ts_usec = ts;
-    packet_header.incl_len = length; // Độ dài của gói tin
+    packet_header.incl_len = length; // Do dai cua goi tin
     packet_header.orig_len = length;
 
     fwrite(&packet_header, sizeof(pcaprec_hdr_t), 1, fp); 
 }
 
+// chuyen doi sang hexa
 void hexStringToUint8Array(const char *hexString, uint8_t *outputArray, size_t *outputLength) 
 {
     // Bo qua tien to 0x neu co
@@ -69,7 +71,16 @@ void hexStringToUint8Array(const char *hexString, uint8_t *outputArray, size_t *
         outputArray[i] = (uint8_t)strtol(hexByte, NULL, 16);
     }
 }
-
+// Doc tung dong chuoi
+void read_each_column(FILE *file, char buffer[][1000], size_t *outputLength)
+{
+    int temp = 0;
+    while(fgets(buffer[temp], 1000, file) != NULL)
+    {
+        temp++;
+        *outputLength = temp;
+    }
+}
 
 int main() 
 {
@@ -84,70 +95,54 @@ int main()
         printf("Lam gi co file dau vao??\n");
     }
 
-    char str[1000],*str1,str2[100][1000]; int temp = 0 ;
-    uint8_t output[50], mem[50][50],mem_len[50]; size_t outputLength;
+    char str[1000],*str1,str_pre[100][1000],str_post[100][1000];
+    int temp = 0,cnt_idx=0,len_data = 0;
+    uint8_t output[50], mem[50][50],mem_len[50]; size_t outputLength, num_lines;
 
-    fgets(str,sizeof(str),fr);
-    str1 = strtok(str,"\"X_,");
-    while(str1 != NULL)
-    {
-        strcpy(str2[temp], str1);
-        str1 = strtok(NULL,"\"X_,");
-        temp++;
-    }
-    
-    for (int i = 0 ; i < temp ; i ++) // luu tru mang
-    {
-        hexStringToUint8Array(str2[i], output, &outputLength);
-        for(int j = 0 ; j < outputLength ; j ++)
-        {
-            mem[i][j] = output[j];
-        }
-            mem_len[i] = outputLength;
-
-    }
-    // tinh do dai du lieu
-    uint32_t dodai = 0, index = 0;
-    for(int i = 0 ; i < temp ; i ++)
-    {
-        dodai = dodai + mem_len[i];
-    }
-
+    // Doc tung hang trong FILE
+    read_each_column(fr,str_pre,&num_lines);
+    // Tao file Header
     create_hdr_pcap(fw);
-    // printf("%ld\n",sizeof(pcap_hdr_t));
-    create_data_pseudo(dodai,2,fw);
-
-    uint8_t packet_data[dodai];
-
-    for(int i = 0 ; i < temp; i ++)
+    // Boc cac truong thong tin
+    while(num_lines--)
     {
-        for(int j = 0 ; j < mem_len[i]; j ++)
+        temp = 0; len_data = 0;
+        str1 = strtok(str_pre[cnt_idx],"\"\nXx_, ");
+        while(str1 != NULL)
         {
-            // printf("0x%x ", mem[i][j]);
-            packet_data[index++] = mem[i][j];
+            strcpy(str_post[temp],str1);
+            str1 = strtok(NULL,"\"\nXx_, ");
+            temp++;
         }
+
+    // string to hex
+        for (int i = 0 ; i < temp ; i ++)
+        {
+            hexStringToUint8Array(str_post[i], output, &outputLength);
+            for(int j = 0 ; j < outputLength ; j ++)
+            {
+                mem[i][j] = output[j];
+            }
+                mem_len[i] = outputLength;
+        }
+        // tinh do dai du lieu hex
+        for(int i = 0 ; i < temp ; i ++)
+        {
+            len_data = len_data + mem_len[i];
+        }
+        create_data_pseudo(len_data,2,fw);
+        uint8_t packet_data[len_data],idx_data = 0;
+    
+        for(int i = 0 ; i < temp; i ++)
+        {
+            for(int j = 0 ; j < mem_len[i]; j ++)
+            {
+                packet_data[idx_data++] = mem[i][j];
+            }
+        }
+        fwrite(packet_data, sizeof(packet_data), 1, fw);
+        cnt_idx ++;
     }
-
-    for(int i = 0 ; i < dodai; i ++)
-    {
-        // printf("0x%x ", packet_data[i]);
-    }
-    // printf("%d \n",dodai);
-
-    // uint8_t b = 0x01;
-    // uint8_t packet_data[42] = 
-    // {
-    //     0x00, 0x00, 0x00, 0x00, 0x19, 0x59, 0x84, 0x78,
-    //     0x01, 0x00, 0x00, 0x00, 0x88, 0x88, 0x88, 0x88,
-    //     0x04, 0x01, 0x00, 0x02, 0x00, 0x00, 0x01, 0x00,
-    //     0x01, 0x00, 0x00, 0x00, 0x88, 0x88, 0x88, 0x88,
-    //     0x00, 0x00, 0x00, 0x00, 0x19, 0x59, 0x84, 0x78,
-    //     01, 0x3F
-    // };
-
-    fwrite(packet_data, sizeof(packet_data), 1, fw);
-    // printf("%ld \n",sizeof(packet_data));
-    // printf("%x \n",packet_data[0]);
 
     fclose(fw); fclose(fr);
     printf("File .pcapng đã được tạo thành công!\n");

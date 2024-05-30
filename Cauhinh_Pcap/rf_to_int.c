@@ -21,6 +21,11 @@ void hexStringToUint8Array(const char *hexString, uint8_t *outputArray, size_t *
     }
 }
 
+void read_each_column(FILE *fr,char *str)
+{
+    
+}
+
 int main()
 {
     FILE *fr;
@@ -46,11 +51,11 @@ int main()
         temp++;
     }
     //Debug
-        printf("%d \n",temp);
-    for(int i = 0 ; i < temp ; i ++)
-    {
-        // printf("%s \n",str2[i]);
-    }
+        // printf("%d \n",temp);
+    // for(int i = 0 ; i < temp ; i ++)
+    // {
+    //     // printf("%s \n",str2[i]);
+    // }
     //
     for (int i = 0 ; i < temp ; i ++) // luu tru mang
     {
@@ -82,7 +87,8 @@ int main()
     }
     for(int i = 0 ; i < dodai; i ++)
     {
-        printf("0x%x ", packet_data[i]);
+        // printf("0x%x ", packet_data[i]);
+        // printf("%lu\n", sizeof(int32_t));
     }
     fclose(fr);
 

@@ -17,6 +17,7 @@ int main()
     read_each(fr,buffer,255);
     for(int i = 0 ; i < 2 ; i ++)
     {
-        printf("%s \n",buffer[i]);
+        printf("%s",buffer[i]);
     }
+    printf("%lu",strlen(buffer[0]));
 }
