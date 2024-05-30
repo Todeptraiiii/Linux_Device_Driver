@@ -1,0 +1,71 @@
+Tập tin tiêu đề
+
+Tiêu đề hệ thống tập tin 
+#include <linux/fs.h>
+
+Tieu de semaphore
+#include <asm/semaphore.h>
+
+Tieu de truy cap nguoi dung
+#include <asm/uaccess.h>
+
+TIeu de he thong tap tin thiet bi
+
+#include <linux/devfs_fs_kernel.h>
+Dung de dang ky cac thiet bi voi he thong tap tin thiet bi (dev fs)
+
+Ham dang ky
+Dang ky mot thiet bi ky tu
+int register_chrdev(unsigned int major, const char *name, struct file_operations *fops);
+Dang ky mot trinh thiet bi ky tu. Neu so 'major' la 0, mot so dong se duoc gan
+
+Huy dang ky mot thiet bi ky tu
+int unregister_chrdev(unsigned int major, const char *name);
+Huy dang ky trinh dieu khien khi do bo. 'Mojor' va 'Name' phai khop voi cac gia tri da dung khi huy dang ky
+
+Marco so thiet bi
+Truy cap so thiet bi tu inode
+kdev_t inode -> i_rdev
+
+Trich xuat so major va minor
+
+int MAJOR(kdev_t dev);
+int MINOR(kdev_t dev);
+
+Marco thao tac tap tin
+
+Dat chu so huu module
+SET_MODULE_OWNER(struct file_operations *fops);
+Dat truong owner trong cau truc 'file_operations'
+
+Ham semaphore
+Khoi tao semaphore
+void sema_init(struct semaphore *sem, int val);
+Khoi tao mot semaphore voi gia tri da biet, thuong la '1' cho loai tru lan nhau
+
+Lay va giai phong semaphore
+int down_interruptible(struct semaphore *sem);
+void up(struct semaphore *sem);
+
+Ham truy cap khong gian nguoi dung
+Sao chep du lieu giua khong gian nguoi dung va kernel
+unsigned long __copy_from_user(void *to, const void *from, unsigned long count);
+unsigned long __copy_to_user(void *to, const void *from, unsigned long count);
+
+Sao chep mang giua khong gian nguoi dung va kernel
+void memcpy_fromfs(void *to, const void *from, unsigned long count);
+void memcpy_tofs(void *to, const void *from, unsigned long count);
+
+Ham devfs
+Tao mot thu muc trong devfs:
+devfs_handle_t devfs_mk_dir(devfs_handle_t dir, const char *name, void *info);
+Dang ky mot thiet bi trong devfs:
+devfs_handle_t devfs_register(devfs_handle_t dir, const char *name, unsigned int flags, unsigned int major, unsigned int minor, umode_t mode, void *ops, void *info);
+Huy dang ky mot thiet bi tu devfs:
+void devfs_unregister(devfs_handle_t de);
+
+
+
+
+ 
+

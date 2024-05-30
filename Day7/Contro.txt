@@ -1,0 +1,1 @@
+Trong ví dụ này, khi trình điều khiển thiết bị được khởi tạo, chúng ta gán con trỏ &led_fops đến cấu trúc file_operations vào filp->f_op. Khi một tệp được mở với trình điều khiển này, kernel sẽ sử dụng con trỏ f_op để gọi các hàm thích hợp như open, release, read, và write từ led_fops để thực hiện các hoạt động tương ứng trên thiết bị.

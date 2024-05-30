@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "fs.h": "c",
+        "module.h": "c",
+        "ioctl.h": "c",
+        "stdio.h": "c",
+        "cdev.h": "c",
+        "device.h": "c",
+        "kernel.h": "c",
+        "uaccess.h": "c",
+        "version.h": "c",
+        "query_ioctl.h": "c",
+        "list.h": "c",
+        "err.h": "c"
+    }
+}

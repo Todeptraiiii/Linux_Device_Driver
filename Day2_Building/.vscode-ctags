@@ -1,0 +1,20 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+KDIR	Makefile	/^KDIR ?= $(KERNEL_SRC)$/;"	m
+KDIR	Makefile	/^KDIR ?= \/lib\/modules\/$(shell uname -r)\/build$/;"	m
+all	Makefile	/^all: modules$/;"	t
+clean	Makefile	/^help modules modules_install clean:$/;"	t
+hello_exit	hello.c	/^static void __exit hello_exit(void)$/;"	f	typeref:typename:void __exit	file:
+hello_exit	hello_world.c	/^static void __exit hello_exit(void)$/;"	f	typeref:typename:void __exit	file:
+hello_init	hello.c	/^static int __init hello_init(void)$/;"	f	typeref:typename:int __init	file:
+hello_init	hello_world.c	/^static int __init hello_init(void)$/;"	f	typeref:typename:int __init	file:
+help	Makefile	/^help modules modules_install clean:$/;"	t
+install	Makefile	/^install: modules_install$/;"	t
+modules	Makefile	/^help modules modules_install clean:$/;"	t
+modules_install	Makefile	/^help modules modules_install clean:$/;"	t
+uninstall	Makefile	/^uninstall:$/;"	t

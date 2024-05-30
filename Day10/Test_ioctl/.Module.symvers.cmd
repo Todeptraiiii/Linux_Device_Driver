@@ -1,0 +1,1 @@
+cmd_/home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/Module.symvers := sed 's/\.ko$$/\.o/' /home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/modules.order | scripts/mod/modpost -m -a  -o /home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/Module.symvers -e -i Module.symvers   -T -

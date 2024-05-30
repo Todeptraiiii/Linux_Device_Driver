@@ -5,13 +5,13 @@
 
 static int __init hello_init(void)
 {
-    printk( "Hello, to dep trai %s %i!\n", current -> comm, current -> pid);
+    printk( KERN_INFO "This is an informational message. \n");
     return 0;
 }
 
 static void __exit hello_exit(void)
 {
-    printk( "Goodbye, to dep trai!\n");
+    printk( "This is an error massage. \n");
 }
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Dao Van To");

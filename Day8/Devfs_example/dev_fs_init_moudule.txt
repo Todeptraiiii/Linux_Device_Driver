@@ -1,0 +1,78 @@
+1) Bao gồm các Tiêu đề:
+Đảm bảo rằng các tiêu đề cần thiết cho devfs và quản lý thiết bị truyền thống được bao gồm:
+#include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/devfs_fs_kernel.h>
+
+2) Định nghĩa hàm khởi tạo thiết lập các thiết bị. Hàm này sẽ kiểm tra hỗ trợ devfs và khởi tạo các thiết bị tương ứng:
+
+static int scull_major = SCULL_MAJOR;
+static struct scull_dev *scull_devices;
+
+static int __init scull_init(void) {
+    int result, i;
+
+    // Phân bổ bộ nhớ cho các thiết bị
+    scull_devices = kmalloc(scull_nr_devs * sizeof(struct scull_dev), GFP_KERNEL);
+    if (!scull_devices) {
+        return -ENOMEM;
+    }
+    memset(scull_devices, 0, scull_nr_devs * sizeof(struct scull_dev));
+
+    // Khởi tạo mỗi thiết bị
+    for (i = 0; i < scull_nr_devs; i++) {
+        scull_devices[i].quantum = scull_quantum;
+        scull_devices[i].qset = scull_qset;
+        sema_init(&scull_devices[i].sem, 1);
+    }
+
+    // Đăng ký các thiết bị với devfs nếu có sẵn
+    #ifdef CONFIG_DEVFS_FS
+    devfs_handle_t devfs_dir;
+
+    devfs_dir = devfs_mk_dir(NULL, "scull", NULL);
+    if (devfs_dir) {
+        for (i = 0; i < scull_nr_devs; i++) {
+            char devname[10];
+            sprintf(devname, "scull%d", i);
+            scull_devices[i].devfs_handle = devfs_register(devfs_dir, devname, DEVFS_FL_DEFAULT, 0, 0, S_IFCHR | S_IRUGO | S_IWUGO, &scull_fops, NULL);
+        }
+    }
+    #else
+    // Đăng ký thiết bị char
+    result = register_chrdev(scull_major, "scull", &scull_fops);
+    if (result < 0) {
+        printk(KERN_WARNING "scull: can't get major %d\n", scull_major);
+        return result;
+    }
+    if (scull_major == 0) {
+        scull_major = result; // Gán số major động
+    }
+    #endif
+    return 0;
+}
+
+
+3) Dọn dẹp Module:
+
+Định nghĩa hàm dọn dẹp để hủy đăng ký các thiết bị và giải phóng tài nguyên:
+
+static void __exit scull_cleanup(void) {
+    int i;
+
+    #ifdef CONFIG_DEVFS_FS
+    for (i = 0; i < scull_nr_devs; i++) {
+        devfs_unregister(scull_devices[i].devfs_handle);
+    }
+    #endif
+
+    // Hủy đăng ký thiết bị char
+    unregister_chrdev(scull_major, "scull");
+
+    // Giải phóng bộ nhớ thiết bị
+    kfree(scull_devices);
+}
+
+module_init(scull_init);
+module_exit(scull_cleanup);
+

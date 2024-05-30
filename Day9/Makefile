@@ -3,7 +3,7 @@
 ifneq ($(KERNELRELEASE),)
 
 # object files to build
-obj-m += hello_world.o
+obj-m += debug.o
 
 ifneq ($(DEBUG),)
 ccflags-y += -DDEBUG
@@ -28,7 +28,7 @@ install: modules_install
 	depmod -a $(shell uname -r)
 
 uninstall:
-	rm /lib/modules/$(shell uname -r)/extra/hello_world.ko
+	rm /lib/modules/$(shell uname -r)/extra/debug.ko
 	depmod -a $(shell uname -r)
 
 endif

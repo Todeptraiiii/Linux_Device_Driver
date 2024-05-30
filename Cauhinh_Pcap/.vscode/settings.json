@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "pcap.h": "c",
+        "stdint.h": "c",
+        "stdio.h": "c"
+    }
+}

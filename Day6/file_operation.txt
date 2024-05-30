@@ -1,0 +1,43 @@
+struct file_operations {
+    struct module *owner;
+    loff_t (*llseek) (struct file *, loff_t, int);
+    ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
+    ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+    ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+    ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
+    int (*iterate) (struct file *, struct dir_context *);
+    int (*iterate_shared) (struct file *, struct dir_context *);
+    __poll_t (*poll) (struct file *, struct poll_table_struct *);
+    long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+    long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+    int (*mmap) (struct file *, struct vm_area_struct *);
+    int (*open) (struct inode *, struct file *);
+    int (*flush) (struct file *, fl_owner_t id);
+    int (*release) (struct inode *, struct file *);
+    int (*fsync) (struct file *, loff_t, loff_t, int datasync);
+    int (*fasync) (int, struct file *, int);
+    int (*lock) (struct file *, int, struct file_lock *);
+    ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int);
+    unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+    int (*check_flags)(int);
+    int (*flock) (struct file *, int, struct file_lock *);
+    ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
+    ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
+    int (*setlease)(struct file *, long, struct file_lock **, void **);
+    long (*fadvise)(struct file *, loff_t, loff_t, int);
+};
+
+Here are some of the most common file operations and their typical uses in device drivers:
+
+    open: This function is called when a file or device is opened. It performs initialization and resource allocation.
+    release: This is called when a file or device is closed. It cleans up and frees resources.
+    read: This function is called when data is read from a file or device. It transfers data from the device to user space.
+    write: This is called when data is written to a file or device. It transfers data from user space to the device.
+    llseek: This function repositions the read/write file offset.
+    unlocked_ioctl: This is used to handle device-specific commands. It allows user programs to communicate with the device driver.
+    mmap: This function is used to map device memory into the process's address space.
+    poll: This function is used to implement the poll system call, allowing the driver to signal readiness for I/O operations.
+    fasync: This is used to handle asynchronous I/O notification.
+    flush: This is called to flush the device's buffers.
+    fsync: This function ensures that all data is physically written to the device.
+    splice_read and splice_write: These are used to transfer data between two file descriptors.

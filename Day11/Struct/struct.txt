@@ -1,0 +1,43 @@
+struct ten_struct 
+{
+	//Nhung kieu du lieu nguoi dung dinh nghia, VD:
+	char hoten;
+	int tuoi;
+	int ngaysinh;
+	
+	// Nhu vay cau truc se la
+	data_type1 name_data1
+	data_type2 name_data2
+	data_type3 name_data3
+};
+// Dung kieu du lieu vua tao, de tao mot kieu du lieu moi;
+struct ten_struct ten_kieu_du_lieu_moi;
+// Hoac tao luon trong luc khai bao struct, nhu sau:
+
+struct ten_struct 
+{
+	//Nhung kieu du lieu nguoi dung dinh nghia, VD:
+	char hoten;
+	int tuoi;
+	int ngaysinh;
+	
+	// Nhu vay cau truc se la
+	data_type1 name_data1
+	data_type2 name_data2
+	data_type3 name_data3
+} ten_kieu_du_lieu_moi;
+
+// Truy xuat kieu du lieu thong thuong
+VD : struct ten_struct person;
+	person.hoten = "Dao Van To"
+	person.tuoi = 22;
+	person.ngaysinh = 21;
+	
+// Truy xuat kieu du lieu con tro
+VD : struct ten_struct *person_ptr;
+	person_ptr = &person;
+	printf("%s %d %d", person_ptr->hoten, person_ptr -> tuoi, person_ptr -> ngaysinh);
+
+// Dinh nghia bien dem di dung
+type struct ten_struct ten_bien;
+

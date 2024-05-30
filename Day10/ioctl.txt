@@ -1,0 +1,5 @@
+Ioctl cung cap mot luong rieng biet cho xu ly cac lenh
+Thay doi che do, cau hinh cac tham so thay vi chi truyen du lieu
+Co che dong bo hoa de quan ly truy cap dong thoi va cac su kien bat dong bo:
+- Blocking I/O
+- Thong bao bat dong bo

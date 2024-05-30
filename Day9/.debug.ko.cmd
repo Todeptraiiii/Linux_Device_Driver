@@ -1,0 +1,1 @@
+cmd_/home/todz/Linux_Driver/Linux_Device_Driver/Day9/debug.ko := ld -r  -m elf_x86_64 -z noexecstack   --build-id=sha1  -T scripts/module.lds -o /home/todz/Linux_Driver/Linux_Device_Driver/Day9/debug.ko /home/todz/Linux_Driver/Linux_Device_Driver/Day9/debug.o /home/todz/Linux_Driver/Linux_Device_Driver/Day9/debug.mod.o;  true

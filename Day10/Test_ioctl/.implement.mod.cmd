@@ -1,0 +1,1 @@
+cmd_/home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/implement.mod := { echo  /home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/implement.o;  echo; } > /home/todz/Linux_Driver/Linux_Device_Driver/Day10/Test_ioctl/implement.mod
