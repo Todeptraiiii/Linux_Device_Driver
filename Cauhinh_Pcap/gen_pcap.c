@@ -74,12 +74,50 @@ void hexStringToUint8Array(const char *hexString, uint8_t *outputArray, size_t *
 // Doc tung dong chuoi
 void read_each_column(FILE *file, char buffer[][1000], size_t *outputLength)
 {
-    int temp = 0;
-    while(fgets(buffer[temp], 1000, file) != NULL)
-    {
-        temp++;
-        *outputLength = temp;
+    char input[1000], output[1000],mem[100][1000],*start, *end;
+    int temp;
+    
+    while(fgets(input, 1000, file) != NULL)
+    {   
+        int flag = 0;
+        for(int i = 0 ; i < strlen(input)/4 ; i++)
+        {
+            if(input[i] == '-' && input[i+1] == '-')
+            {
+                flag = 1;
+                printf("Cau hinh co chua comment da bi bo qua \n");
+                break;
+            }
+        }
+        if(!flag)
+        {
+            // tim dau ngoac kep dau tien
+            start = strchr(input,'\"');
+            if(start != NULL)
+            {
+                // tim dau ngoac kep thu hai
+                end = strchr(start+1, '\"');
+                if(end != NULL)
+                {
+                    int length = end - start + 1;
+                    strncpy(output,start,length);
+                    output[length] = '\0'; // ki tu null ket thuc chuoi
+                    strcpy(buffer[temp],output);
+                    temp ++;
+                    *outputLength = temp;
+                }
+                else
+                {   
+                    // printf("Khong tim thay dau ngoac kep thu 2!! \n");
+                }
+            }
+            else
+                {
+                    // printf("Khong tim thay dau ngoac kep dau tien!! \n");
+                }
+        }
     }
+
 }
 
 int main() 
@@ -95,7 +133,7 @@ int main()
         printf("Lam gi co file dau vao??\n");
     }
 
-    char str[1000],*str1,str_pre[100][1000],str_post[100][1000];
+    char str[1000],*str1,str_pre[1000][1000],str_post[100][1000];
     int temp = 0,cnt_idx=0,len_data = 0;
     uint8_t output[50], mem[50][50],mem_len[50]; size_t outputLength, num_lines;
 
