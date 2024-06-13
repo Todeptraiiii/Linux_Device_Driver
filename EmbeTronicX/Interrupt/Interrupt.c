@@ -1,11 +1,11 @@
 /***************************************************************************//**
-*  \file       driver.c
+*  \file       Interrupt.c
 *
-*  \details    Interrupt Example
+*  \details    Interrupt 
 *
-*  \author     EmbeTronicX
+*  \author     To dep trai da chinh sua
 *
-*  \Tested with kernel 5.4.47
+*  \Tested with kernel 5.15
 *
 *******************************************************************************/
 #include <linux/kernel.h>
@@ -208,6 +208,6 @@ module_init(etx_driver_init);
 module_exit(etx_driver_exit);
  
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("EmbeTronicX <embetronicx@gmail.com>");
+MODULE_AUTHOR("To dep trai");
 MODULE_DESCRIPTION("A simple device driver - Interrupts");
-MODULE_VERSION("1.9");
+MODULE_VERSION("5.15");
