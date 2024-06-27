@@ -1,1 +1,0 @@
-cmd_/home/todz/Linux_Driver/Linux_Device_Driver/EmbeTronicX/Misc_driver/misc_driver.mod := { echo  /home/todz/Linux_Driver/Linux_Device_Driver/EmbeTronicX/Misc_driver/misc_driver.o;  echo; } > /home/todz/Linux_Driver/Linux_Device_Driver/EmbeTronicX/Misc_driver/misc_driver.mod
